@@ -21,7 +21,7 @@ The following concept documents exist and are valid for discussion:
 - CONCEPT.md  
   Primary system concept and baseline assumptions.
 
-- CONCEPT2.md  
+- CONCEPT_PHASE2.md  
   Alternative and extended ideas under evaluation.
 
 Both documents are exploratory. No final decision has been made between them yet.

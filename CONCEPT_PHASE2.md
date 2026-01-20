@@ -1,138 +1,82 @@
-# Vehicle Relay Distribution System (VRDS)
-## Concept and Requirements – Phase 2 (High Power, Automotive Relays)
+# VRDS – Concept Phase 2  
+## Monostable Automotive Relays and Active Driver Stages
+
+### Scope of Phase 2
+
+Concept Phase 2 extends the VRDS system with classic monostable automotive relays (typically 30–40 A), mainly used for automatic or logic-controlled switching scenarios.
+
+Unlike Phase 1, which is based on bistable relays with impulse operation, Phase 2 explicitly avoids any direct relay coil control via panel switches.
 
 ---
 
-## 1. Purpose of Phase 2
+### Fundamental Design Decision
 
-Phase 2 extends the VRDS with a dedicated solution for high current loads using automotive relays.
+All monostable automotive relays in Phase 2 are driven exclusively via an active driver stage.
 
-Phase 2 does not modify Phase 1.
-Phase 1 remains complete and frozen.
+Direct switching of relay coils through panel switches is explicitly excluded.
 
-The purpose of Phase 2 is to handle loads that exceed the electrical and thermal limits of Phase 1 channels.
-
----
-
-## 2. Fundamental difference to Phase 1
-
-Phase 2 intentionally differs from Phase 1 in relay type and control philosophy.
-
-- Phase 1 uses bistable relays and push buttons
-- Phase 2 uses monostable automotive relays and switches
-
-This difference is deliberate and required by the characteristics of high power automotive relays.
+This decision is mandatory and applies to all Phase 2 implementations.
 
 ---
 
-## 3. Relay principle in Phase 2
+### Reasons for Using Driver Stages
 
-### 3.1 Monostable automotive relays
+The driver stage concept is used for the following reasons:
 
-Phase 2 is based on **monostable automotive relays**.
+- Mechanical and thermal relief of panel switches  
+- Elimination of continuous relay coil current through control panels  
+- Reduced current load in wiring harnesses  
+- Improved reliability in automotive environments  
+- Better EMC behaviour and reduced inductive stress  
+- Clear separation between control level and power level  
 
-Monostable relays:
-
-- require continuous coil power to remain activated
-- return to a defined default state when power is removed
-- are widely available in high current ratings
-- are mechanically robust and vehicle proven
-
-Typical ratings include 30 A, 40 A and higher, depending on relay type.
-
-Because bistable automotive relays are rare, expensive or unavailable for many use cases, monostable relays are the practical and preferred choice in Phase 2.
+Even though typical relay coil currents (approx. 120–180 mA at 12 V) may appear low, continuous operation via small switches leads to contact heating, ageing and unpredictable long-term behaviour.
 
 ---
 
-## 4. Control philosophy in Phase 2
+### Driver Stage Characteristics
 
-### 4.1 Use of switches instead of push buttons
+Each monostable relay coil is controlled by one of the following:
 
-Due to the use of monostable relays, Phase 2 is designed to be operated with **latching switches**, not momentary push buttons.
+- Transistor driver stage (BJT)
+- Logic-level MOSFET driver stage (preferred)
 
-Key properties:
+Mandatory characteristics:
 
-- switch position directly represents relay and load state
-- continuous coil power is applied while the switch is on
-- switching behavior is intuitive and immediately visible
-- no internal state memory is required
+- Relay coil powered directly from the supply rail
+- Switches handle only logic-level current
+- Flyback protection (diode or equivalent) directly at the relay coil
+- Defined ground reference and short return paths
 
-Push buttons are not suitable as the primary control element in Phase 2.
-
----
-
-### 4.2 Control signal behavior
-
-- Switch ON:
-  - relay coil energized
-  - load switched on
-- Switch OFF:
-  - relay coil de-energized
-  - load switched off
-
-The electrical state of the switch directly defines the system state.
+The driver stage acts as the only electrical interface between control logic and relay coil.
 
 ---
 
-## 5. Architecture options
+### Separation of System Phases
 
-### 5.1 Phase 2 slave board
+- Phase 1  
+  Bistable relays  
+  Impulse-driven  
+  No continuous coil current  
+  Direct switch interaction acceptable
 
-- board with automotive relay sockets
-- high current terminals or studs
-- individual fusing per channel
-- control inputs designed for switch operation
-- compatible control voltage with Phase 1 master board
+- Phase 2  
+  Monostable automotive relays  
+  Continuous coil current during activation  
+  Active driver stage required  
+  No direct switch-to-coil connection
 
-### 5.2 Distributed relay layout
-
-- relays mounted off board
-- DIN rail or relay carriers
-- wiring harness connection
-- identical switch based control logic
-
----
-
-## 6. Power handling and fusing
-
-- high current supply must be fused at the source
-- each load must be fused individually
-- fuse ratings matched to cable size and load
-- relays protected against overload and overheating
+This separation is intentional and forms a core architectural principle of VRDS.
 
 ---
 
-## 7. Ground handling
+### Resulting Benefits
 
-- VRDS does not route load ground
-- load ground connected externally
-- no ground loops through VRDS
+- Longer switch lifetime
+- Reduced thermal stress in panels
+- Cleaner wiring architecture
+- Higher robustness under vibration and temperature variation
+- Clear and maintainable electrical structure
 
----
-
-## 8. Optional extensions
-
-Phase 2 may include optional features such as:
-
-- current measurement via shunt
-- temperature monitoring at relays
-- undervoltage protection
-- delayed switching or interlocks
-
-These features are optional and not required for basic operation.
-
----
-
-## 9. Explicit non goals of Phase 2
-
-- Phase 2 does not change Phase 1 behavior
-- Phase 2 does not require software by default
-- Phase 2 does not introduce cloud connectivity
-- Phase 2 does not guarantee safety
-
----
-
-**Status:**
-Phase 2 control philosophy is defined.
-Implementation details remain open.
+Phase 2 is therefore optimised for durability, serviceability and automotive-grade operation.
 

@@ -1,132 +1,58 @@
-# Vehicle Relay Distribution System (VRDS)
+# VRDS – Vehicle Relay Distribution System
 
-## What is VRDS?
-
-The Vehicle Relay Distribution System is a modular relay based switching and distribution system for 12 V DC electrical systems in campervans and similar vehicles.
-
-VRDS Phase 1 is explicitly designed as a **bistable relay system**.
-
-It solves a common problem in vehicle builds:
-Small switches and buttons are not suitable for directly switching DC loads over long periods of time.
-
-VRDS separates these concerns clearly:
-
-- user input and control
-- electrical load switching
-
-Loads are switched by relays.
-Buttons and control wiring only carry low power signals.
+VRDS is a modular relay-based distribution system designed for automotive and campervan applications, focusing on reliability, clarity and long-term robustness.
 
 ---
 
-## Core design principle: bistable relays
+## Core Design Principles
 
-VRDS Phase 1 is built primarily around **bistable relays**.
-
-A bistable relay changes its state using a short control pulse and then mechanically remains in that state without consuming any further power.
-
-### Properties of bistable relays
-
-- no holding current required
-- no continuous coil power
-- minimal heat generation
-- stable state even during power loss
-- energy efficient by design
-
-This makes bistable relays ideal for vehicle applications.
+- Clear separation between control and power domains
+- Automotive-grade reliability
+- Reduced thermal and mechanical stress
+- Predictable electrical behaviour
 
 ---
 
-## Monostable relays explained
+## System Phases
 
-A monostable relay behaves differently:
+### Phase 1 – Bistable Relays
 
-- it requires continuous coil power to stay active
-- when power is removed, it returns to its default state
-- it consumes energy as long as it is switched on
-- it generates continuous heat
-
-Monostable relays are common, but they are **not the primary target** of VRDS Phase 1.
-They are treated as exceptions or as part of Phase 2 for high power applications.
+- Impulse-driven bistable relays
+- No continuous relay coil current
+- Direct interaction with switches possible
+- Optimised for manual control scenarios
 
 ---
 
-## Why VRDS uses push buttons instead of switches
+### Phase 2 – Monostable Automotive Relays
 
-Because VRDS Phase 1 uses bistable relays, it is designed to be operated with **momentary push buttons**, not latching switches.
+- Classic monostable automotive relays (typically 30–40 A)
+- Continuous coil current during activation
+- Relay coils are driven exclusively via transistor or MOSFET driver stages
+- Panel switches never carry relay coil current
 
-Important consequences:
-
-- the button position does not represent the load state
-- the relay stores the state internally
-- the actual load state is always indicated by LEDs
-- no mismatch between switch position and load state
-
-Push buttons are therefore the natural and preferred control element.
-Latching switches are not required.
+This approach protects switches, reduces wiring load and improves system longevity.
 
 ---
 
-## Control flow overview
+## Architectural Summary
 
-The functional flow in VRDS Phase 1 is always the same:
+Control Interface  
+→ Driver Stage (Phase 2)  
+→ Relay  
+→ Load
 
-1. A push button is pressed
-2. A short control pulse is generated
-3. The bistable relay toggles its state
-4. The load is switched on or off
-5. The status LED updates to reflect the new state
-
-The button itself never carries load current.
-The LED always represents the real relay state, not the button state.
+Direct switching of monostable relay coils via panel switches is intentionally excluded.
 
 ---
 
-## Who VRDS is for
+## Project Status
 
-VRDS is intended for:
-
-- campervan builders
-- technically interested makers
-- workshops focusing on clean vehicle electrics
-
-It is suitable for non professionals as long as sufficient electrical knowledge is present or installation is performed by a qualified person.
+VRDS is under active development.  
+Design decisions documented in the concept and architecture files are binding for all future extensions.
 
 ---
 
-## What VRDS is not
+## License
 
-VRDS is not:
-
-- a complete vehicle electrical system
-- a smart home platform
-- a bus system
-- a software based controller
-- a certified safety device
-
-VRDS does not guarantee safety.
-It provides a transparent and structured switching system.
-
----
-
-## Safety and responsibility
-
-Designing and installing a 12 V DC system is an electrical engineering task.
-
-Incorrect planning or installation may cause damage or fire.
-
-Responsibility for sizing, wiring and installation lies entirely with the user.
-
----
-
-## Repository structure
-
-- `concept.md`
-  Complete technical concept and requirements for Phase 1
-
----
-
-## Status
-
-Phase 1 is complete and frozen.
-
+See LICENSE file.

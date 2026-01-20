@@ -33,4 +33,3 @@ This project uses semantic versioning where applicable.
 - Phase-based relay strategy
 - Bistable relay concept for manual switching
 - Project structure and documentation baseline
-
